@@ -76,3 +76,45 @@ ALTER TABLE likes
 	FOREIGN KEY (friend_id) REFERENCES users(id)
 	ON DELETE CASCADE
 ;
+
+-- Для таблицы communities_users
+
+DESC communities_users;
+ALTER TABLE communities_users 
+	ADD CONSTRAINT communities_users_user_id_fk
+	FOREIGN KEY (user_id) REFERENCES users(id)
+	ON DELETE CASCADE,
+	ADD CONSTRAINT communities_users_community_id_fk
+	FOREIGN KEY (community_id) REFERENCES communities(id)
+	ON DELETE CASCADE
+;
+
+-- Для таблицы frienship
+DESC friendship;
+ALTER TABLE friendship
+	ADD CONSTRAINT friendship_status_id_fk
+	FOREIGN KEY (status_id) REFERENCES friendship_statuses(id)
+;
+
+
+-- для таблицы profiles меняем название столбцов city и country 
+	
+ALTER TABLE profiles RENAME COLUMN city TO city_id;
+ALTER TABLE profiles RENAME COLUMN country TO country_id;
+
+-- меняем тип данных для столбцов city и country
+
+ALTER TABLE profiles MODIFY COLUMN city_id INT(10) UNSIGNED;
+ALTER TABLE profiles MODIFY COLUMN country_id INT(10) UNSIGNED;
+	
+-- Для таблицы profiles добавляем связи с city и country
+ALTER TABLE profiles 
+	ADD CONSTRAINT profiles_city_id_fk
+	FOREIGN KEY (city_id) REFERENCES city(id)
+	ON DELETE CASCADE
+;
+ALTER TABLE profiles
+	ADD CONSTRAINT profiles_country_id_fk
+	FOREIGN KEY (country_id) REFERENCES countries(id)
+	ON DELETE CASCADE
+;
